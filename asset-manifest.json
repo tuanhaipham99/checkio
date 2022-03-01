@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/checkio/static/css/main.2ae47eeb.chunk.css",
+    "main.js": "/checkio/static/js/main.ee0ffdc1.chunk.js",
+    "main.js.map": "/checkio/static/js/main.ee0ffdc1.chunk.js.map",
+    "runtime-main.js": "/checkio/static/js/runtime-main.7e29ca3a.js",
+    "runtime-main.js.map": "/checkio/static/js/runtime-main.7e29ca3a.js.map",
+    "static/css/2.f4c56af9.chunk.css": "/checkio/static/css/2.f4c56af9.chunk.css",
+    "static/js/2.2d8c350c.chunk.js": "/checkio/static/js/2.2d8c350c.chunk.js",
+    "static/js/2.2d8c350c.chunk.js.map": "/checkio/static/js/2.2d8c350c.chunk.js.map",
+    "static/js/3.7c79c7d9.chunk.js": "/checkio/static/js/3.7c79c7d9.chunk.js",
+    "static/js/3.7c79c7d9.chunk.js.map": "/checkio/static/js/3.7c79c7d9.chunk.js.map",
+    "index.html": "/checkio/index.html",
+    "static/css/2.f4c56af9.chunk.css.map": "/checkio/static/css/2.f4c56af9.chunk.css.map",
+    "static/css/main.2ae47eeb.chunk.css.map": "/checkio/static/css/main.2ae47eeb.chunk.css.map",
+    "static/js/2.2d8c350c.chunk.js.LICENSE.txt": "/checkio/static/js/2.2d8c350c.chunk.js.LICENSE.txt",
+    "static/media/BackgroundIO.png": "/checkio/static/media/BackgroundIO.4163c2de.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7e29ca3a.js",
+    "static/css/2.f4c56af9.chunk.css",
+    "static/js/2.2d8c350c.chunk.js",
+    "static/css/main.2ae47eeb.chunk.css",
+    "static/js/main.ee0ffdc1.chunk.js"
+  ]
+}
