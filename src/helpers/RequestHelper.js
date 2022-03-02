@@ -29,8 +29,36 @@ export default class RequestHelper {
       ...config,
     };
   }
+  static async getHeaderNoToken(config = {}) {
+    return {
+      accept: "application/json",
+      contentType: "application/json",
+      //Authorization: 'JWT ' + localStorage.getItem("access"),
+      ...config,
+    };
+  }
   static async get(apiUrl, params) {
     const header = await this.getHeader();
+    return instance
+      .get(apiUrl, {
+        headers: header,
+        params,
+        paramsSerializer: (params) => {
+          console.log("params", JSON.stringify(params, { arrayFormat: "repeat" }))
+          return JSON.stringify(params, { arrayFormat: "repeat" });     
+        },
+      })
+      .then((data) => {
+        return data;
+      })
+      .catch((e) => {
+        handleError(e);
+        throw e;
+      });
+  }
+
+  static async getNoToken(apiUrl, params){
+    const header = await this.getHeaderNoToken();
     return instance
       .get(apiUrl, {
         headers: header,

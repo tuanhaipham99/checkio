@@ -30,3 +30,13 @@ export const getDetailStudentRequest = (CCCD) => {
     throw new Error(error);
   });
 }
+
+export const findDetailRequest = (CCCD) => {
+  return RequestHelper.getNoToken(`${apiUrl}logs/?student=${CCCD}`)
+  .then ((res) => {
+    return res.data;
+  })
+  .catch((error) => {
+    throw new Error(error);
+  });
+}

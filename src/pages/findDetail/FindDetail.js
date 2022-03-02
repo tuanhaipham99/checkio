@@ -13,8 +13,10 @@ import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 import TimelineDot from '@material-ui/lab/TimelineDot';
 import { useHistory } from "react-router-dom";
-import { getDetailCheckin, getDetailStudent } from '../../store/slices/checkinSlice';
+import { getDetailStudent, findDetail } from '../../store/slices/checkinSlice';
 import { get } from 'lodash';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function FindDetal() {
     const classes = useStyles();
@@ -23,27 +25,22 @@ export default function FindDetal() {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const selectorDetail = useSelector((state) =>
-        get(state, "checkinStore.detailCheckin", {})
-    );
-
-    const detail = get(selectorDetail, "current", [])
-
     const selectorStudent = useSelector((state) =>
-        get(state, "checkinStore.detailStudent", {})
+        get(state, "checkinStore.finding", {})
     );
 
-    const student = get(selectorStudent, "current", {})
+    const result = get(selectorStudent, "current", [])
 
-    const submitSearch = (keyWord) => {
-        console.log("keyWord", keyWord)
-        dispatch(getDetailCheckin(keyWord));
-        dispatch(getDetailStudent(keyWord))
+    const submitSearch = async() => {
+        await dispatch(findDetail(keyWord));
         setShow(true);
     }
 
+    console.log("result", result)
+
     return (
         <div className={classes.root}>
+            <ToastContainer />
             <Header></Header>
             <div className={classes.imgContent}>
                 <Box className={classes.content}>
@@ -60,7 +57,7 @@ export default function FindDetal() {
                                 setKeyWord(event.target.value);
                             }}
                         />
-                        <IconButton className={classes.searchIcon} onClick={() => submitSearch(keyWord)}>
+                        <IconButton className={classes.searchIcon} onClick={() => submitSearch()}>
                             <Search />
                         </IconButton>
                     </div>
@@ -72,7 +69,7 @@ export default function FindDetal() {
                                 <div>
                                     <Avatar
                                         className={classes.avtStyle}
-                                        src={student?.image}
+                                        src={result[0]?.student?.image}
                                         alt="Avatar"></Avatar>
                                 </div>
                                 <div className={classes.personcontent}>
@@ -80,17 +77,17 @@ export default function FindDetal() {
                                         <Typography style={{
                                             fontSize: "24px", fontFamily: "Nunito",
                                             color: "#533e6b"
-                                        }}>{student?.first_name + " " + student?.last_name}</Typography>
+                                        }}>{result[0]?.student?.first_name + " " + result[0]?.student?.last_name}</Typography>
                                     </div>
                                     <div className={classes.content}>
                                         
-                                        <Typography className={classes.typoItem}>Email: {student.email ? student.email : "None"}</Typography>
-                                        <Typography className={classes.typoItem}>Gender: <span>{student.sex ? student.sex === 1 ? "Male" : "Female" : "None"}</span></Typography>
-                                        <Typography className={classes.typoItem}>Birthday: <span>{student.birthday ? student.birthday : "None"}</span></Typography>
+                                        <Typography className={classes.typoItem}>Email: {result[0]?.student?.email ? result[0]?.student?.email : "None"}</Typography>
+                                        <Typography className={classes.typoItem}>Gender: <span>{result[0]?.student?.sex ? result[0]?.student?.sex === 1 ? "Male" : "Female" : "None"}</span></Typography>
+                                        <Typography className={classes.typoItem}>Birthday: <span>{result[0]?.student?.birthday ? result[0]?.student?.birthday : "None"}</span></Typography>
                                     </div>
                                     <div className={classes.timeline}>
                                         <Timeline style={{ margin: 0 }}>
-                                            {detail.map((item, index) => (
+                                            {result.map((item, index) => (
                                                 <TimelineItem className={classes.timelineItem}>
                                                     <TimelineOppositeContent className={classes.timelineOpp}>
                                                         <Typography color="textSecondary">{item.date}</Typography>
@@ -98,7 +95,7 @@ export default function FindDetal() {
                                                     </TimelineOppositeContent>
                                                     <TimelineSeparator>
                                                         <TimelineDot />
-                                                        {index + 1 !== detail.length && <TimelineConnector />}
+                                                        {index + 1 !== result.length && <TimelineConnector />}
                                                     </TimelineSeparator>
                                                     <TimelineContent><Paper elevation={3} className={classes.card}>
                                                         <Avatar

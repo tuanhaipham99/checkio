@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { getListCheckInRequest, getDetailCheckInRequest, getDetailStudentRequest } from "../../api";
+import { getListCheckInRequest, getDetailCheckInRequest, getDetailStudentRequest, findDetailRequest } from "../../api";
 import { toast } from "react-toastify";
 
 export const getListCheckin = createAsyncThunk("checkin/list", async (body) => {
@@ -37,6 +37,19 @@ export const getDetailStudent = createAsyncThunk("checkin/student", async(CCCD) 
   return result;
 })
 
+export const findDetail = createAsyncThunk("get/detail", async(CCCD) => {
+  const result = await findDetailRequest(CCCD)
+    .then((res) => {
+      console.log("res", res)
+      return res;
+    })
+    .catch((message) => {
+      toast.error("Wrong indentity number !");
+      throw new Error(message);
+    });
+  return result;
+})
+
 const checkinSlice = createSlice({
   name: "checkinSlice",
   initialState: {
@@ -55,6 +68,12 @@ const checkinSlice = createSlice({
     },
     detailStudent: {
       current: {},
+      loading: false,
+      success: false,
+      error: "",
+    },
+    finding: {
+      current: [],
       loading: false,
       success: false,
       error: "",
@@ -104,6 +123,20 @@ const checkinSlice = createSlice({
       state.detailStudent.loading = false;
       state.detailStudent.success = false;
       state.detailStudent.error = action.payload;
+    },
+    //find detail
+    [findDetail.pending]: (state, action) => {
+      state.finding.loading = true;
+    },
+    [findDetail.fulfilled]: (state, action) => {
+      state.finding.current = action.payload.results;
+      state.finding.loading = false;
+      state.finding.success = true;
+    },
+    [findDetail.rejected]: (state, action) => {
+      state.finding.loading = false;
+      state.finding.success = false;
+      state.finding.error = action.payload;
     },
   }
 })
